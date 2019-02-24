@@ -1,29 +1,41 @@
 from pyax12.connection import Connection
 import time
-import keyboard
+
+def sure_goto(id, pos):
+    max_retries = 10
+    retry = 0
+    for retry in range(max_retries):
+        try:
+            serial_connection.goto(id, pos)
+            break
+        except:
+            pass
+    print("Retries: {}".format(retry))
 
 serial_connection = Connection(port="/dev/ttyS0", baudrate=1000000, rpi_gpio=True)
 position1 = []
-run = True
 init_time = time.time()
-print(init_time)
-while time.time() - init_time < 10:
+while time.time() - init_time < 6:
   try:
-    start_time = time.time()
+    # start_time = time.time()
     curr_pos = serial_connection.get_present_position(1)
     position1.append(curr_pos)
-    curr_load =  curr_pos+serial_connection.get_present_load(1)
-    new_pos = curr_pos-int(0.08*(curr_load-curr_pos))
-    serial_connection.goto(1, new_pos)
-    print("Recording\tPos: {} Load: {} New pos {}\t'Time taken:{}".format(curr_pos, curr_load, new_pos, start_time - time.time()))
-    time.sleep(0.1)
-  except Exception as e:
-    print(e)
+    curr_load =  curr_pos + serial_connection.get_present_load(1)
+    new_pos = curr_pos - int(0.12*(curr_load - curr_pos))
+    print("Pos: {} Load: {} New pos {}".format(curr_pos, curr_load, new_pos))
+    sure_goto(1, new_pos)
+    sleep(0.05)
+  except:
     pass
-#  if keyboard.is_pressed('q'):
-#      run = False
+
+sure_goto(1, position1[0])
+time.sleep(0.1)
+for position in position1:
+    sure_goto(1, position)
+    time.sleep(0.05)
 
 
-print('Finished recording')
+
+print('Finished moving')
 print('Positions:', position1)
 
