@@ -114,7 +114,7 @@ class Connection(object):
 
         if self.rpi_gpio:
             self.serial_connection.flushOutput()
-            wait_time = 300e-6
+            wait_time = 500e-6
             start = time.clock_gettime(time.CLOCK_MONOTONIC)
             while time.clock_gettime(time.CLOCK_MONOTONIC) < start+wait_time: 
                 pass

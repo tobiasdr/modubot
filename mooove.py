@@ -1,12 +1,12 @@
 from pyax12.connection import Connection
 import time
 
-def sure_goto(id, pos):
+def sure_goto(id, pos, sp):
     max_retries = 10
     retry = 0
     for retry in range(max_retries):
         try:
-            serial_connection.goto(id, pos)
+            serial_connection.goto(id, pos, speed=sp)
             break
         except:
             pass
@@ -21,21 +21,23 @@ while time.time() - init_time < 6:
     curr_pos = serial_connection.get_present_position(1)
     position1.append(curr_pos)
     curr_load =  curr_pos + serial_connection.get_present_load(1)
-    new_pos = curr_pos - int(0.12*(curr_load - curr_pos))
+    new_pos = curr_pos - int(0.04*(curr_load - curr_pos))
+# - int(0.01 *(250 - serial_connection.get_present_speed(1)))
     print("Pos: {} Load: {} New pos {}".format(curr_pos, curr_load, new_pos))
-    sure_goto(1, new_pos)
-    sleep(0.05)
+    sure_goto(1, new_pos, 600)
+    sleep(0.01)
   except:
     pass
 
-sure_goto(1, position1[0])
+sure_goto(1, position1[0], 300)
 time.sleep(0.1)
 for position in position1:
-    sure_goto(1, position)
-    time.sleep(0.05)
+    sure_goto(1, position, 750)
+    time.sleep(0.08)
 
 
 
 print('Finished moving')
 print('Positions:', position1)
+
 
