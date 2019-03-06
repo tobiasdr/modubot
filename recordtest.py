@@ -22,7 +22,7 @@ for id in ids:
 #initialise position array
 position = [[None for x in range(0)] for y in range(7)]
 
-
+start = time.time()
 #function that ignores errors when moving
 def sure_goto(id, pos, sp):
     max_retries = 10
@@ -41,7 +41,8 @@ try:
             curr_pos = serial_connection.get_present_position(id)
             position[id].append(curr_pos)
             print(position[id])
-            time.sleep(0.05)
+            time.sleep(0.08)
+            print(time.time()-start)
 
 except KeyboardInterrupt:
     pass
@@ -54,8 +55,9 @@ time.sleep(1)
 
 for i in range(len(position[id])):
     for id in ids:
-        sure_goto(id, position[id][i], 350)
-        time.sleep(0.08)
+        sure_goto(id, position[id][i], 300)
+        time.sleep(0.04)
+        print(time.time()-start)
 
 serial_connection.close()
 print("finished")
