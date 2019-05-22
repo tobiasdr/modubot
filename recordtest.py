@@ -50,11 +50,12 @@ except KeyboardInterrupt:
 for id in ids:
     sure_goto(id, position[id][0], 200)
     time.sleep(0.08)
+    
 
 time.sleep(1)
 
-for i in range(len(position[id])):
-    for id in ids:
+for id in ids:
+    for i in range(len(position[id])):
         sure_goto(id, position[id][i], 300)
         time.sleep(0.04)
         print(time.time()-start)
