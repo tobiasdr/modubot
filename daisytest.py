@@ -9,7 +9,7 @@ serial_connection = Connection(port="/dev/ttyS0", baudrate=1000000, rpi_gpio=Tru
 # Ping the dynamixel unit(s)
 ids_available = serial_connection.scan()
 
-print(ids_available[0])
+print(ids_available)
 # Close the serial connection
 serial_connection.close()
 gpio.cleanup()
