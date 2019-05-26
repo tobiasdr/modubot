@@ -55,7 +55,7 @@ def replay():
         time.sleep(0.08)
     time.sleep(1)
 
-    while flag == FLAG_REPLAY and move_counter < len(position[ids[0]:
+    while flag == FLAG_REPLAY and move_counter < len(position[ids[0]]):
         for id in ids:
             for i in range(len(position[id])):
                 sure_goto(id, position[id][i], 300)
