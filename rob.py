@@ -28,7 +28,7 @@ position = [[None for x in range(0)] for y in range(9)]
 def run():
     while 1:
         if flag == FLAG_NO_ACTION:
-            sleep(0.3)
+            time.sleep(0.3)
         elif flag == FLAG_RECORD:
             record()
         elif flag == FLAG_REPLAY:
@@ -61,6 +61,5 @@ def replay():
                 sure_goto(id, position[id][i], 300)
                 time.sleep(0.04)
                 print(time.time()-start)    
-    sleep(2)
 
 

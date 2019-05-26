@@ -13,25 +13,24 @@ app = Flask(__name__)
 flag = 0
 @app.route("/")
 def main():
-    if flag == 1:
-        rob.record()
-    elif flag == 2:
-        rob.replay()
-    else:
-        pass
     return render_template('index.html')
 
 @app.route("/record", methods=['GET'])
 def record():
-    flag = 1
-    return
+    flag = rob.FLAG_RECORD
+    return ""
 
 
 @app.route("/replay", methods=['GET'])
 def replay():
-    flag = 2
-    return
+    flag = rob.FLAG_REPLAY
+    return ""
 
+
+@app.route("/stop", methods=['GET'])
+def stop():
+    flag = rob.FLAG_NO_ACTION
+    return ""
 
 if __name__ == "__main__":
     #initialise serial port S0
@@ -53,6 +52,6 @@ if __name__ == "__main__":
 
     #initialise position array
     position = [[None for x in range(0)] for y in range(12)]
-    t = threading.Thread(target=main)
+    t = threading.Thread(target=rob.run)
     t.start()
     app.run(host="0.0.0.0", port=8080)
