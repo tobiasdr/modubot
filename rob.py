@@ -50,16 +50,16 @@ def record():
 def replay():
     global position
     move_counter = 0
-    while flag == FLAG_REPLAY and move_counter < len(moves):
-        for id in ids:
-            sure_goto(id, position[id][0], 200)
-            time.sleep(0.08)
-        time.sleep(1)
+    for id in ids:
+        sure_goto(id, position[id][0], 200)
+        time.sleep(0.08)
+     time.sleep(1)
 
+    while (flag == FLAG_REPLAY and move_counter < len(position[ids[0]):
         for id in ids:
             for i in range(len(position[id])):
                 sure_goto(id, position[id][i], 300)
                 time.sleep(0.04)
-                print(time.time()-start)    
-
-
+                print(time.time()-start)   
+                move_counter += 1
+  
