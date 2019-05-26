@@ -13,12 +13,29 @@
 <body>
 
   <p>Hello, world!</p>
-<a href="/record"><button type="button">Record</button></a>
-<a href="/replay"><button type="button">Replay</button></a>
+<a href="#" onclick="return recordcmd();"><button type="button">Record</button></a>
+<a href="#" onclick="return replaycmd();"><button type="button">Replay</button></a>
 <a href="/reset"><button type="button">Reset</button></a>
 
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
+            function recordcmd(){
+                $.ajax({
+                    type: "GET",
+                    url: "http://0.0.0.0:8080/record",
+                    success: function (data) { 
+                  },
+                });                
+            }
+
+            function replaycmd(){
+                $.ajax({
+                    type: "GET",
+                    url: "http://0.0.0.0:8080/replay",
+                    success: function (data) { 
+                  },
+                });
+            }
 </script>
 
 
