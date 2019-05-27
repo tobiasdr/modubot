@@ -49,7 +49,7 @@ position = [[None for x in range(0)] for y in range(9)]
 def run():
     while 1:
         if flag == FLAG_NO_ACTION:
-            time.sleep(0.3)
+            pass 
         elif flag == FLAG_RECORD:
             record()
         elif flag == FLAG_REPLAY:
