@@ -17,24 +17,25 @@ def main():
 
 @app.route("/record", methods=['GET'])
 def record():
-    flag = rob.FLAG_RECORD
+    rob.flag = rob.FLAG_RECORD
     return ""
 
 
 @app.route("/replay", methods=['GET'])
 def replay():
-    flag = rob.FLAG_REPLAY
+    rob.flag = rob.FLAG_REPLAY
     return ""
 
 
 @app.route("/stop", methods=['GET'])
 def stop():
-    flag = rob.FLAG_NO_ACTION
+    rob.flag = rob.FLAG_NO_ACTION
     return ""
 
 if __name__ == "__main__":
     #initialise serial port S0
     serial_connection = Connection(port="/dev/ttyS0", baudrate=1000000, rpi_gpio=True)
+
 
     ids = []
     #scanning daisy chain and storing ID numbers in array
@@ -50,8 +51,10 @@ if __name__ == "__main__":
     for id in ids:
         serial_connection.send(InstructionPacket(id, 0x03, bytes([0x18, 0x00])))
 
+#    print(ids)
+
     #initialise position array
-    position = [[None for x in range(0)] for y in range(12)]
+    position = [[None for x in range(0)] for y in range(9)]
     t = threading.Thread(target=rob.run)
     t.start()
     app.run(host="0.0.0.0", port=8080)

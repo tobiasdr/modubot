@@ -5,6 +5,27 @@ import time
 import os
 from flask import Flask, render_template
 
+
+
+serial_connection = Connection(port="/dev/ttyS0", baudrate=1000000, rpi_gpio=True)
+
+
+ids = []
+#scanning daisy chain and storing ID numbers in array
+worked = False
+while not worked:
+    try:
+        ids = serial_connection.scan()
+        worked = True
+    except:
+        pass
+
+    #disable torque for servos
+for id in ids:
+    serial_connection.send(InstructionPacket(id, 0x03, bytes([0x18, 0x00])))
+
+
+
 #function that ignores errors when moving
 def sure_goto(id, pos, sp):
     max_retries = 10
@@ -36,15 +57,15 @@ def run():
 
 
 def record():
+    print("test")
     global position
     position = [[None for x in range(0)] for y in range(9)]
-    while flag == FLAG_RECORD:
+    while flag == 1:
         for id in ids:
             curr_pos = serial_connection.get_present_position(id)
             position[id].append(curr_pos)
             print(position[id])
             time.sleep(0.08)
-            print(time.time()-start) 
 
 
 def replay():
@@ -55,11 +76,10 @@ def replay():
         time.sleep(0.08)
     time.sleep(1)
 
-    while flag == FLAG_REPLAY and move_counter < len(position[ids[0]]):
+    while move_counter < len(position[ids[0]]):
         for id in ids:
             for i in range(len(position[id])):
                 sure_goto(id, position[id][i], 300)
                 time.sleep(0.04)
-                print(time.time()-start)   
                 move_counter += 1
   
