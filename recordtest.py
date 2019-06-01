@@ -20,7 +20,7 @@ for id in ids:
     serial_connection.send(InstructionPacket(id, 0x03, bytes([0x18, 0x00])))
 
 #initialise position array
-position = [[None for x in range(0)] for y in range(12)]
+position = [[None for x in range(0)] for y in range(9)]
 
 start = time.time()
 #function that ignores errors when moving
@@ -41,7 +41,7 @@ try:
             curr_pos = serial_connection.get_present_position(id)
             position[id].append(curr_pos)
             print(position[id])
-            time.sleep(0.08)
+            time.sleep(0.04)
             print(time.time()-start)
 
 except KeyboardInterrupt:
@@ -54,9 +54,9 @@ for id in ids:
 
 time.sleep(1)
 
-for id in ids:
-    for i in range(len(position[id])):
-        sure_goto(id, position[id][i], 230)
+for i in range(len(position[id])):
+    for id in ids:    
+        sure_goto(id, position[id][i], 170)
         time.sleep(0.04)
         print(time.time()-start)
 

@@ -3,8 +3,6 @@ from pyax12.connection import Connection
 from pyax12.instruction_packet import InstructionPacket
 import time
 import os
-from flask import Flask, render_template
-
 
 
 serial_connection = Connection(port="/dev/ttyS0", baudrate=1000000, rpi_gpio=True)
@@ -20,10 +18,9 @@ while not worked:
     except:
         pass
 
-    #disable torque for servos
+#disable torque for servos
 for id in ids:
     serial_connection.send(InstructionPacket(id, 0x03, bytes([0x18, 0x00])))
-
 
 
 #function that ignores errors when moving
@@ -49,7 +46,9 @@ position = [[None for x in range(0)] for y in range(9)]
 def run():
     while 1:
         if flag == FLAG_NO_ACTION:
-            pass 
+            #disable torque for servos
+            for id in ids:
+                serial_connection.send(InstructionPacket(id, 0x03, bytes([0x18, 0x00])))          
         elif flag == FLAG_RECORD:
             record()
         elif flag == FLAG_REPLAY:
@@ -57,7 +56,6 @@ def run():
 
 
 def record():
-    print("test")
     global position
     position = [[None for x in range(0)] for y in range(9)]
     while flag == 1:
@@ -66,20 +64,17 @@ def record():
             position[id].append(curr_pos)
             print(position[id])
             time.sleep(0.08)
-
+    
 
 def replay():
     global position
-    move_counter = 0
     for id in ids:
-        sure_goto(id, position[id][0], 200)
+        sure_goto(id, position[id][0],50)
         time.sleep(0.08)
     time.sleep(1)
 
-    while move_counter < len(position[ids[0]]):
+    for i in range(len(position[id])):
         for id in ids:
-            for i in range(len(position[id])):
-                sure_goto(id, position[id][i], 300)
-                time.sleep(0.04)
-                move_counter += 1
+            sure_goto(id, position[id][i], 50)
+            time.sleep(0.08)
   
