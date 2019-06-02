@@ -46,9 +46,7 @@ position = [[None for x in range(0)] for y in range(9)]
 def run():
     while 1:
         if flag == FLAG_NO_ACTION:
-            #disable torque for servos
-            for id in ids:
-                serial_connection.send(InstructionPacket(id, 0x03, bytes([0x18, 0x00])))          
+            pass
         elif flag == FLAG_RECORD:
             record()
         elif flag == FLAG_REPLAY:
@@ -57,6 +55,8 @@ def run():
 
 def record():
     global position
+    for id in ids:
+        serial_connection.send(InstructionPacket(id, 0x03, bytes([0x18, 0x00])))
     position = [[None for x in range(0)] for y in range(9)]
     while flag == 1:
         for id in ids:
