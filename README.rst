@@ -1,3 +1,8 @@
+Code for the Modubot project as part of the Design, Make and Test project as part of my mechanical engineering degree at Imperial College London. Forked from @jeremiedecock at https://github.com/jeremiedecock/pyax12
+
+
+
+
 .. image:: https://readthedocs.org/projects/pyax-12/badge/?version=latest
     :target: https://readthedocs.org/projects/pyax-12/?badge=latest
     :alt: Documentation Status
